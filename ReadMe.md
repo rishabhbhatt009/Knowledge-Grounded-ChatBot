@@ -6,7 +6,8 @@ Create a knowledge grounded chatbot using a LLM.
 
 ## Links : 
 
-- [[Weekly Meeting Notes]]
+- [[Weekly-Meeting-Notes]]
+- [Weekly Notes](Notes/Weekly-Meeting-Notes.md)
 - Research Papers 
 
 ## Resources : 
