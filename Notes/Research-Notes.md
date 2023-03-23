@@ -1,4 +1,4 @@
-	## Research
+## Research Papers 
 
 1. How do I ground large language models ? 
 	- using a large corpus of annotated data
@@ -50,15 +50,43 @@ Fine Tuning GPT :
 - Through equipping LMs with a module that retrieves such documents from a database given a context, it is possible to match certain capabilities of some of the largest LMswhile having less parameters (Borgeaud et al., 2022; Izacard et al., 2022). Note that the resulting model is now non-parametric since it can query external data sources.
 - Augmented Language Models (ALMs)
 
----
 
-#### How to build a Q&A AI in Python (Open-domain Question-Answering) - James Briggs | [YouTube](https://www.youtube.com/watch?v=w1dMEWm7jBc&ab_channel=JamesBriggs)
-Great resource to 
-- **Retrieve Model** = 
-- Question -> Retrieve Model -> Token Vector -> Pooling Layer Query Vector 
-- **Vector Database** = Context Vectors (Indexed Offline)
-- Query Vector -> Vector Database -> top k context 
-- **Reader Model**
-- Why Fine Tuning Model : Common knowledge area easy to fine, more specific use case require fine tuning 
-- **Data** = {Question, Context} pairs - squad_v2
-- 
+## Articles 
+
+### How chatGPT works
+
+### How to build a Q&A AI in Python (Open-domain Question-Answering) - James Briggs | [YouTube](https://www.youtube.com/watch?v=w1dMEWm7jBc&ab_channel=JamesBriggs)
+
+#### Task of Question Answering 
+- What happens when we ask questions to google 
+- questions -> relevant paragraph -> answer is highlighted 
+- traditional search : uses keywords
+
+#### Open-Domain Question Answering (ODQA)
+- question answering pipeline
+- **Input** : Questions 
+- **Retrieve Model** :
+	- fine-tuned LLM
+	- it takes up a query and converts it into a vector
+	- it allows us to encode meaning instead of just key words 
+- *Question -> Retrieve Model -> Token Vector -> Pooling Layer Query Vector* 
+- **Vector Database** : 
+	- Context Vectors (Indexed Offline)
+	- generated offline using the same model 
+- *Query Vector -> Vector Database -> top k context* 
+- **Reader Model** : 
+	- given the question and the context vectors  generates a precise answer
+	- natural language answer  
+
+#### Fine-Tuning LLM Model
+- Why :
+	- Common knowledge v/s specific use case 
+	- while its easy to find data and models for common knowledge, its difficult to find them for latter
+	- therefore, we need to fine-tune our own models 
+- How : 
+	- to train we need *{Question, Context}* pairs
+	- we optimize on minimizing distance between similar pairs and maximizing distance between dissimilar pair 
+
+#### Dataset  
+- squad_v2 dataset 
+- **Data** = {Question, Context} pairs
