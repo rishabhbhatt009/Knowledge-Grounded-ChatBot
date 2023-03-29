@@ -18,7 +18,7 @@ for row in tqdm(squad):
     ))
 
 # removing duplicates 
-batch_size = 24
+batch_size = 16
 
 loader = datasets_dup.NoDuplicatesDataLoader(
     train, batch_size=batch_size
@@ -34,7 +34,7 @@ pooler = models.Pooling(
     pooling_mode_mean_tokens=True
 )
 
-model = SentenceTransformer(modules=[bert, pooler], device='cpu')
+model = SentenceTransformer(modules=[bert, pooler], device='cuda')
 loss = losses.MultipleNegativesRankingLoss(model)
 
 print('-'*50, 'Training Model', '-'*50, sep='\n')
@@ -51,3 +51,5 @@ model.fit(
     show_progress_bar=True
 )
 
+modelPath = '/home/rishabh/GitHub/Knowledge-Graph/model-checkpoint'
+model.save(modelPath)
