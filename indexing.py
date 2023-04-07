@@ -33,7 +33,7 @@ for row in squad_dev:
 # now filter out any samples that aren't included in unique IDs
 squad_dev = squad_dev.filter(lambda x: True if x['id'] in unique_ids else False)
 print(squad_dev)
-print(squad_dev[0])
+# print(squad_dev[0])
 
 
 ### Encoding Contexts
@@ -42,8 +42,24 @@ squad_dev = squad_dev.map(lambda x: {
     'encoding': model.encode(x['context']).tolist()
 }, batched=True, batch_size=4)
 print(squad_dev)
-print(squad_dev[0])
+# print(squad_dev[0])
 
 
+### Converting to dataframe
+df = pd.DataFrame(squad_dev)
+print(df.head(10))
 
+
+### Fetching Context
+def fetch_context(query_vector):
+	print('Got the q vector')
+
+### Querying Model
+print('-'*50, 'Query - Model', '-'*50, sep='\n')
+query = 'Start'
+while query != 'end':
+	if query != 'Start':
+		query_vector = model.encode(query)
+		fetch_context(query_vector)
+	query = input('Enter query : ')
 
