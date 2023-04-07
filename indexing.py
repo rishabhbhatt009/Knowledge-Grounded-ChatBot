@@ -15,10 +15,11 @@ print('-'*50, 'Loading Dataset', '-'*50, sep='\n')
 print(squad_dev[0])
 
 ### Loading Model 
-# model = SentenceTransformer('/home/rishabh/GitHub/Knowledge-Graph/model-checkpoint')
+model = SentenceTransformer('/home/rishabh/GitHub/Knowledge-Graph/model-checkpoint')
 
 
 ### Pre-Processing Data
+print('-'*50, 'Processing Dataset', '-'*50, sep='\n')
 unique_contexts = []
 unique_ids = []
 
@@ -32,13 +33,16 @@ for row in squad_dev:
 # now filter out any samples that aren't included in unique IDs
 squad_dev = squad_dev.filter(lambda x: True if x['id'] in unique_ids else False)
 print(squad_dev)
+print(squad_dev[0])
 
 
 ### Encoding Contexts
+print('-'*50, 'Encoding Dataset', '-'*50, sep='\n')
 squad_dev = squad_dev.map(lambda x: {
     'encoding': model.encode(x['context']).tolist()
 }, batched=True, batch_size=4)
 print(squad_dev)
+print(squad_dev[0])
 
 
 
