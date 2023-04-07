@@ -7,7 +7,7 @@ from sentence_transformers import losses
 
 from sentence_transformers.evaluation import InformationRetrievalEvaluator
 import pandas as pd
-
+from scipy.spatial.distance import cosine
 
 ### Loading the dataset
 squad_dev = datasets.load_dataset('squad_v2', split='validation')
@@ -51,8 +51,17 @@ print(df.head(10))
 
 
 ### Fetching Context
-def fetch_context(query_vector):
-	print('Got the q vector')
+def calculate_cosine_distance(vector1, vector2):
+    	return cosine(vector1, vector2)
+	
+
+def fetch_context(df, query_vector, k):
+	df_copy = df.copy()
+	df_copy['cosine_distance'] = df['encode'].apply(lambda x: calculate_cosine_distance(query_vector, x))
+	df_copy.sort_values('cosine_distance', inplace=True)
+
+	print('Best Context Match:')
+	print(df_copy.head(k))
 
 ### Querying Model
 print('-'*50, 'Query - Model', '-'*50, sep='\n')
@@ -60,6 +69,6 @@ query = 'Start'
 while query != 'end':
 	if query != 'Start':
 		query_vector = model.encode(query)
-		fetch_context(query_vector)
+		fetch_context(query_vector, 5)
 	query = input('Enter query : ')
 
