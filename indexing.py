@@ -48,19 +48,23 @@ print(squad_dev)
 ### Converting to dataframe
 df = pd.DataFrame(squad_dev)
 print(df.head(10))
-
+df.to_csv('dataframe.csv', index=False)
 
 ### Fetching Context
 def calculate_cosine_distance(vector1, vector2):
     	return cosine(vector1, vector2)
-	
 
 def fetch_context(df, query_vector, k):
 	df_copy = df.copy()
-	df_copy['cosine_distance'] = df['encode'].apply(lambda x: calculate_cosine_distance(query_vector, x))
-	df_copy.sort_values('cosine_distance', inplace=True)
+	df_copy['cosine_distance'] = df_copy['encoding'].apply(lambda x: calculate_cosine_distance(query_vector, x))
+	df_copy.sort_values('cosine_distance', ascending=False, inplace=True)
 
 	print('Best Context Match:')
+	#for index, row in df.head(k).iterrows():
+	#   for col, value in row.items():
+        #	print(col, ":", value)
+	#    print()
+
 	print(df_copy.head(k))
 
 ### Querying Model
@@ -69,6 +73,10 @@ query = 'Start'
 while query != 'end':
 	if query != 'Start':
 		query_vector = model.encode(query)
-		fetch_context(query_vector, 5)
+		qv = pd.DataFrame(query_vector)
+		print(len(qv))
+		qv.to_csv('qv.csv', index=False)
+
+		fetch_context(df, query_vector, 5)
 	query = input('Enter query : ')
 
